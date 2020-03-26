@@ -83,7 +83,7 @@ class Nearby extends React.Component {
                                     <Arrow facing={2} />
                                     <Text>
                                         {`${Math.round(p.distance)}m ${
-                                            p.properties.ANL_NAME
+                                            p.name
                                         }`}
                                     </Text>
                                 </View>
