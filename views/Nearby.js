@@ -4,20 +4,15 @@
  */
 
 import React from 'react';
+import {Button, View, Text, ScrollView} from 'react-native';
 
-import {
-    Button,
-    PermissionsAndroid,
-    ScrollView,
-    Text,
-    ToastAndroid,
-    View,
-} from 'react-native';
+
+import RNSimpleCompass from 'react-native-simple-compass';
 
 import Geolocation from 'react-native-geolocation-service';
 
 import styles from '../styles';
-import Arrow from "../components/NavigationArrow";
+import Arrow from '../components/NavigationArrow';
 
 const server = '5.132.191.83';
 
@@ -26,7 +21,14 @@ class Nearby extends React.Component {
         super(props, context);
         this.state = {
             parks: [],
+            compass: 0,
         };
+
+        const degree_update_rate = 10; // Number of degrees changed before the callback is triggered
+        RNSimpleCompass.start(degree_update_rate, degree => {
+            this.setState({compass: degree});
+            console.log('You are facing', this.state.compass);
+        });
     }
 
     reloadList(that): void {
@@ -77,14 +79,10 @@ class Nearby extends React.Component {
                         <Text style={styles.sectionTitle}>Parks</Text>
                         <View>
                             {this.state.parks.map(p => (
-                                <View
-                                    key={p.id}
-                                    style={styles.parksNearbyElement}>
-                                    <Arrow facing={2} />
+                                <View style={styles.parksNearbyElement}>
+                                    <Arrow facing={this.state.compass} />
                                     <Text>
-                                        {`${Math.round(p.distance)}m ${
-                                            p.name
-                                        }`}
+                                        {`${Math.round(p.distance)}m ${p.name}`}
                                     </Text>
                                 </View>
                             ))}
@@ -118,8 +116,6 @@ class Nearby extends React.Component {
             console.warn(err);
         }
     }
-
-
 }
 
 export default Nearby;
