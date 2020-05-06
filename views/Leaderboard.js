@@ -23,11 +23,7 @@ class Leaderboard extends React.Component {
                 score: Math.floor(Math.random()* 10),
             });
         }
-        sampleScores.sort(function(a, b) {
-            if (a.score > b.score) return -1;
-            else if (b.score > a.score) return 1;
-            else return 0;
-        });
+        sampleScores.sort((a,b) => a.score-b.score).reverse();
 
         for (let i = 0; i < 10; i++) {
             let username = 'User' + i;
