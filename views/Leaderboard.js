@@ -16,20 +16,33 @@ class Leaderboard extends React.Component {
     }
     createLeaderboard = () => {
         let scoreRows = [];
-        for (let i = 0; i < 5; i++) {
+        let sampleScores = [];
+        for(let i = 0;i<10;i++){
+            sampleScores.push({
+                name: 'User' + i,
+                score: Math.floor(Math.random()* 10),
+            });
+        }
+        sampleScores.sort(function(a, b) {
+            if (a.score > b.score) return -1;
+            else if (b.score > a.score) return 1;
+            else return 0;
+        });
+
+        for (let i = 0; i < 10; i++) {
             let username = 'User' + i;
             if (i % 2 == 0) {
                 {
                     scoreRows.push(
                         <View style={styles.scoreRowGrey} key={i}>
-                            <ScoreRow username={username} score={i} />
+                            <ScoreRow username={sampleScores[i].name} score={sampleScores[i].score} />
                         </View>,
                     );
                 }
             } else {
                 scoreRows.push(
                     <View style={styles.scoreRowWhite} key={i}>
-                        <ScoreRow username={username} score={i} />
+                        <ScoreRow username={sampleScores[i].name} score={sampleScores[i].score} />
                     </View>,
                 );
             }
